@@ -1,0 +1,3 @@
+[submodule "Contributions"]
+	path = Contributions
+	url = git@github.com:creators-organization/coding-challenges-community.git
