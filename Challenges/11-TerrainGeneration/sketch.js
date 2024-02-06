@@ -3,6 +3,7 @@ let scl;
 let w, h;
 let flying;
 let terrain;
+let flySpeed = 0.1
 
 function setup(){
 	createCanvas(windowWidth, windowHeight, WEBGL);
@@ -23,11 +24,10 @@ function setup(){
 
 function draw(){
 	background(51);
-	translate(0, 50);
 	rotateX(PI/3);
-  translate(-w / 2, -2*h/3);
-	
-	flying -= 0.1;
+  translate(-w * 0.5, -h*0.5);
+	// noFill();
+	flying -= flySpeed;
 	let yOff = flying;
 	for (let y = 0; y < rows; y++) {
 		let xOff = 0;
@@ -37,12 +37,14 @@ function draw(){
 		}
 		yOff+= 0.2;
 	}
-	for (let y = 0; y < rows-1; y++) {
-		let r = map(y, 0, rows - 1, 0, 200);
-		let g = map(y, 0, rows - 1, 0, 200);
-		let b = map(y, 0, rows - 1, 0, 200);
-		let a = map(y, 0, rows - 1, 0, 255);
-		fill(r, g, b, a);
+	let rowY = rows - 1;
+	for (let y = 0; y < rowY; y++) {
+		let c = map(y, 0, rowY, 0, 200);
+		// let g = map(y, 0, rowY, 0, 200);
+		// let b = map(y, 0, rowY, 0, 200);
+		let a = map(y, 0, rowY, 0, 255);
+		fill(c, c, c, a);
+		stroke(c, c, c);
 		beginShape(TRIANGLE_STRIP);
 		for (let x = 0; x < cols; x++) {
 			vertex(x*scl, y*scl, terrain[x][y]);
