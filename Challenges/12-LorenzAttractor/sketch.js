@@ -1,56 +1,79 @@
-let x;
-let y;
-let z;
-let hue;
+let v;
+let hueShift = 0;
 let a = 10;
 let b = 28;
 let c = 8.0/3.0;
+let dt = 0.01;
+let maxPoints = 2500;
+let freeRotate = false;
+let scaleFactor = 5;
 
 let points;
+let easyCam;
 
 function setup(){
 	createCanvas(windowWidth, windowHeight, WEBGL);
-	easyCam = createEasyCam({distance:500});
+	easyCam = createEasyCam({distance:400});
   colorMode(HSB);
-	x = 0.01;
-	y = 0;
-	z = 0;
-	hue = 0;
+	v = new p5.Vector(0.01, 0, 0);
 	points = new Array();
 	noFill();
-	translate(0, 0, -80);
 }
 
 function draw(){
-	background(0);
+	push();
+	background(hueShift, 359, 10);
+	if(freeRotate) {
+		rotateX(frameCount*0.004);
+		rotateY(frameCount*0.004);
+		rotateZ(frameCount*0.004);
+		translate(-v.x*scaleFactor, -v.y*scaleFactor, -v.z*scaleFactor);
+	}
+	scale(scaleFactor);
 	
-	let dt = 0.01;
-	let dx = a * (y - x) * dt;
-	let dy = (x * (b - z) - y) * dt;
-	let dz = (x*y - c*z) * dt;
-	x = x + dx;
-	y = y + dy;
-	z = z + dz;
+	let dx = a * (v.y - v.x) * dt;
+	let dy = (v.x * (b - v.z) - v.y) * dt;
+	let dz = (v.x*v.y - c*v.z) * dt;
+	v.x += dx;
+	v.y += dy;
+	v.z += dz;
 
-	points.push(new p5.Vector(x, y, z));
+	points.push(new p5.Vector(v.x, v.y, v.z));
 	// leave this on to NOT fry your computer.
-	if(points.length > 2000) { points.shift(); }
-	scale(5);
+	if(points.length > maxPoints) { points.shift(); }
 
+	let hue = hueShift;
 	beginShape();
-	for (let v of points) {
+	let limit = points.length - 1;
+	let p = points[0];
+	for (let i = 0; i < limit; i++) {
+		p = points[i];
+		
 		stroke(hue, 100, 100);
-		vertex(v.x, v.y, v.z);
+		vertex(p.x, p.y, p.z);
 		// let offset = p5.Vector.random3D();
-		// offset.mult(0.01);
+		// offset.mult(0.1);
 		// v.add(offset);
 	
+		hue += 1;
+		if (hue > 359) hue = 0;
 	}
-	hue = (hue > 359) ? 0 : hue + 0.1;
+	p = points[limit];
+	stroke(0, 0, 100);
+	vertex(p.x, p.y, p.z);
 	endShape();
+	hueShift += (map(points.length, 0, maxPoints, 1, 3));
+	if(hueShift > 359) hueShift = 0;
+	pop();
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  easycam.setViewport([0,0,windowWidth, windowHeight]);
+  easyCam.setViewport([0,0,windowWidth, windowHeight]);
+}
+
+function keyReleased() {
+	if(key === " ") {
+		freeRotate = !freeRotate;
+	}
 }
