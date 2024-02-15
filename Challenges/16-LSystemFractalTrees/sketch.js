@@ -1,8 +1,10 @@
 var axiom = "F";
-var sentence = axiom;
 var len = 100;
-var angle = 50;
+var radAngle = 25;
 var generations = 0;
+
+var sentence = axiom;
+var angle;
 
 var rules = [
 	{
@@ -91,11 +93,14 @@ function turtle() {
 
 function setup(){
 	createCanvas(400, 400);
-	angle = radians(25);
+	var button = createButton("generate");
+	button.mousePressed(generate);
+	reset();
+}
+
+function reset(){
+	angle = radians(radAngle);
 	background(51);
 	createP(axiom);
 	turtle();
-	var button = createButton("generate");
-	button.mousePressed(generate);
-
 }
