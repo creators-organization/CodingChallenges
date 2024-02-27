@@ -3,7 +3,7 @@ var maxIterations = 100;
 var w = 5.2;
 var h = 0;
 var infinityMax = 4;
-var rotateSpeed = 0.002;
+var rotateSpeed = 0.008;
 
 const colorsRed = [];
 const colorsGreen = [];
