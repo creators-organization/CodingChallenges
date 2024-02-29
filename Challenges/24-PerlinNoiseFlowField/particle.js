@@ -18,9 +18,7 @@ function Particle() {
 		this.acc.add(force);
 	}
 
-	this.show = function(col = color(0, 5)) {
-		stroke(col);
-		strokeWeight(1);
+	this.show = function() {
 		line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
 	}
 
