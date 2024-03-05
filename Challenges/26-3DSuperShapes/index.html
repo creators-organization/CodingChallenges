@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Spherical Objects</title>
+		<script src="https://cdn.jsdelivr.net/npm/p5@*/lib/p5.min.js"></script>
+		<script src="https://diwi.github.io/p5.EasyCam/p5.easycam.js"></script>
+		<script id="ERasyCamFix.js" type="text/javascript">
+			// This is a fix for a reported bug in EasyCam, see: <https://github.com/diwi/p5.EasyCam/issues/5>
+			Dw.EasyCam.prototype.apply = function(n) {
+				var o = this.cam;
+				n = n || o.renderer,
+				n && (this.camEYE = this.getPosition(this.camEYE), this.camLAT = this.getCenter(this.camLAT), this.camRUP = this.getUpVector(this.camRUP), n._curCamera.camera(this.camEYE[0], this.camEYE[1], this.camEYE[2], this.camLAT[0], this.camLAT[1], this.camLAT[2], this.camRUP[0], this.camRUP[1], this.camRUP[2]))
+			};
+		</script>
+		<script src="sketch.js" type="text/javascript"></script>
+		<style>
+			body {
+				overflow: hidden;
+				margin: 0px;
+			}
+		</style>
+	</head>
+	<body>
+	</body>
+</html>
