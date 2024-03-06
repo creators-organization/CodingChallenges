@@ -1,11 +1,11 @@
 function Particle(
 		pos,
-		vel = p5.Vector.random2D(),
+		vel = p5.Vector.random3D(),
 		dampener = 1,
-		hu = 255) {
+		hu = 0) {
 	this.pos = pos;
 	this.vel = vel;
-	this.acc = createVector(0, 0);
+	this.acc = createVector(0, 0, 0);
 	this.dampener = dampener;
 	this.lifespan = 255;
 	this.hu = hu;
@@ -23,6 +23,9 @@ function Particle(
 
 	this.show = function() {
 		stroke(this.hu, this.hu, this.lifespan);
-		point(this.pos.x, this.pos.y);
+		push();
+		translate(this.pos.x, this.pos.y, this.pos.z);
+		point(0, 0, 0);
+		pop();
 	}
 }

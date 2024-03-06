@@ -1,7 +1,8 @@
-function Firework(maxParticles = 100, dampener = random(0.85, 0.95), hu = random(360)) {
+function Firework(maxParticles = 100, dampener = random(0.9, 0.98), hu = random(360)) {
+	let velY = random(-(windowHeight*0.016), -(windowHeight*0.003));
 	this.firework = new Particle(
-		pos=createVector(random(width), height),
-		vel=createVector(0, random(-15, -5)));
+		pos=createVector(random(width), height, random(width)),
+		vel=createVector(0, velY, 0));
 	this.willExplode = true;
 	this.particles = [];
 	this.maxParticles = maxParticles;
@@ -33,21 +34,21 @@ function Firework(maxParticles = 100, dampener = random(0.85, 0.95), hu = random
 	
 	this.show = function() {
 		if(this.willExplode) {
-			colorMode(RGB);
+			// colorMode(RGB);
 			this.firework.show();
 		}
 		for (let i = 0; i < this.particles.length; i++) {
-			colorMode(HSB);
+			// colorMode(HSB);
 			this.particles[i].show();
 		}
 	}
 
 	this.explode = function() {
 		for (let i = 0; i < this.maxParticles; i++) {
-			var v = p5.Vector.random2D();
+			var v = p5.Vector.random3D();
 			v.mult(random(1, 6));
 			var p = new Particle(
-				createVector(this.firework.pos.x, this.firework.pos.y),
+				createVector(this.firework.pos.x, this.firework.pos.y, this.firework.pos.z),
 				v,
 				this.dampener,
 				this.hu);
