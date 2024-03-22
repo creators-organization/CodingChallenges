@@ -1,7 +1,9 @@
 var startR = 10;
+var minR = 1;
 var numWalkers = 50;
-var iterations = 1000;
+var walkIterations = 1000;
 var hueShiftSpeed = 0.5;
+var generationReduction = 0.99;
 
 var tree = [];
 var walkers = [];
@@ -50,27 +52,34 @@ function draw(){
 		const w = walkers[i];
 		w.show();
 	}
-	for (let i = 0; i < iterations; i++) {
+	for (let i = 0; i < walkIterations; i++) {
 		for (let i = walkers.length - 1; i >= 0; i--) {
 			const w = walkers[i];
 			w.walk();
 			if(w.checkStuck(tree)) {
+				setNewOrderedHue(w);
 				tree.push(w);
 				walkers.splice(i, 1);
-				w.col = color(hueShift, 100, 100);
-				hueShift += hueShiftSpeed;
-				if(hueShift > 360) {
-					hueShift = 0;
-				} else if(hueShift < 0) {
-					hueShift = 360;
-				}
 			}
 		}
 	}
-	var r = walkers[walkers.length - 1]?.r * 0.99;
-	while(r > 1 && walkers.length < numWalkers) {
+	var r = walkers[walkers.length - 1]?.r * generationReduction;
+	while(r > minR && walkers.length < numWalkers) {
 		// walkers.push(new Walker({radius: r}));
 		walkers.push(new Walker({radius: r}));
+	}
+	if(walkers.length <= 0) {
+		rotate(0.5);
+	}
+}
+
+function setNewOrderedHue(walker) {
+	walker.col = color(hueShift, 100, 100);
+	hueShift += hueShiftSpeed;
+	if (hueShift > 360) {
+		hueShift = 0;
+	} else if (hueShift < 0) {
+		hueShift = 360;
 	}
 }
 
