@@ -2,7 +2,9 @@ var n = 0;
 var c = 15;
 var angle = 137.5;
 var maxPetals = 10000;
-var petalSize = 100;
+// TODO: set petalSize and rotateSpeed as a function of gaze location distance from center
+	// TODO: https://webgazer.cs.brown.edu/
+var petalSize = 120;
 var rotateSpeed = 0.001;
 var hueShift = 0;
 var hueShiftSpeed = 0.5;
@@ -15,7 +17,9 @@ function setup(){
 }
 
 function draw(){
-	background(0);
+	colorMode(RGB);
+	background(0, 20);
+	colorMode(HSB);
 	translate(width*0.5, height*0.5);
 	for (let i = 0; i < maxPetals; i++) {
 		var a = i * (map(sin(angle), -1, 1, 0, 360));
