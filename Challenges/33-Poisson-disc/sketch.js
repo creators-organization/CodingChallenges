@@ -4,7 +4,9 @@ var w = r / Math.sqrt(2);
 
 var dynamicPerFrame = true;
 var perFrame = 150;
+var hueShiftSpeed = 50;
 
+var hueShift = 0;
 var grid = [];
 var active = [];
 var ordered = [];
@@ -51,7 +53,11 @@ function draw(){
 	}
 	for (let i = 0; i < ordered.length; i++) {
 		const o = ordered[i];
-		fill(i/10 % 360, 100, 100);
+		// fill(i/10 % 360, 100, (frameCount + (ordered.length - i)/10) % 100);
+		// fill(i/10 % 360, 100, 100);
+		// fill((hueShift + i)/10 % 360, 100, 100);
+		// fill(300, 100, i/20 % 100);
+		fill((hueShift + i)/10 % 360, 100, ((ordered.length - i)/40) % 100);
 		ellipse(o.x, o.y, r*0.5, r*0.5);
 		// stroke(i/10 % 360, 100, 100);
 		// point(o.x, o.y);
@@ -74,6 +80,8 @@ function draw(){
 	// 	const a = active[i];
 	// 	point(a.x, a.y);
 	// }
+  hueShift -= hueShiftSpeed;
+  if(hueShift < 0) hueShift = 360 * hueShiftSpeed;
 }
 
 function poissonDisc() {
