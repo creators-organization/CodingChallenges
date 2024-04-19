@@ -5,7 +5,7 @@ function Metaball(
 	this.pos = position;
 	this.r = radius;
 	this.vel = velocity;
-	this.vel.mult(random(8, 12));
+	this.vel.mult(random(2, 4));
 
 	this.show = function(){
 		noFill();
