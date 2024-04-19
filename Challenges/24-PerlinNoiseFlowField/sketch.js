@@ -10,7 +10,7 @@ var flowField = [];
 
 var hu;
 var hueShift;
-var drawType = 1;
+var drawType = 2;
 var fade = 0;
 var fadeIn = 0.005;
 
@@ -34,7 +34,7 @@ function reset(){
 	for (let i = 0; i < 15000; i++) {
 		particles[i] = new Particle();
 	}
-	if (drawType === 2){
+	if (drawType === 2 || drawType === 6){
 		background(0);
 	} else if (drawType === 5){
 		background(360);
@@ -73,6 +73,9 @@ function draw(){
 			stroke(0, 0, pHue, 5);
 		} else if (drawType === 5) {
 			stroke(0, 0, 0, 0.01);
+		} else if (drawType === 6) {
+			let pHue = (i < particles.length*0.5)? 0: 100;
+			stroke(0, 0, pHue, 0.01);
 		}
 		p.show();
 		p.update();
@@ -83,6 +86,7 @@ function draw(){
 }
 
 function shiftHue() {
+	if (drawType === 6 ) { return; }
 	hu += hueShift;
 	if (hu > 359) hu = 0;
 }
@@ -106,6 +110,8 @@ function keyPressed() {
 	} else if (key === '5') { // example, draws faint black lines on white, will fill the screen with black over time.
 		background(360);
 		drawType = 5;
+	} else if (key === '6') { // greyScale 
+		drawType = 6;
 	} else if (['a', 'ArrowLeft'].includes(key)) {
 		updateDrawType(-1);
 	} else if (['d', 'ArrowRight', ' '].includes(key)) {
@@ -121,15 +127,13 @@ function mouseClicked() {
 
 function updateDrawType(dir) {
 	drawType += dir;
+	if (drawType < 1) {
+		drawType = 6;
+	}
+	if (drawType > 6) {
+		drawType = 1;
+	}
 	if (drawType === 5) {
 		background(360);
-	}
-	if (drawType > 5) {
-		drawType = 1;
-		return;
-	}
-	if (drawType < 1) {
-		background(360);
-		drawType = 5;
 	}
 }
